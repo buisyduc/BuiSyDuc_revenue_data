@@ -1,12 +1,12 @@
 <h3>Danh thu theo năm</h3>
 <form method="get" action="{{ route('index') }}">
-    <select name="Loc" class="form-select" aria-label="Default select example">
+    <select name="nam" class="form-select" aria-label="Default select example">
         @php
             $currentYear = date('Y');
         @endphp
 
         @for ($i = $currentYear; $i >= 2020; $i--)
-            <option {{ request('Loc') == $i ? 'selected' : '' }}>{{ $i }}</option>
+            <option {{ request('nam') == $i ? 'selected' : '' }}>{{ $i }}</option>
         @endfor
 
     </select>
@@ -25,19 +25,15 @@
   </thead>
   <tbody>
 
-       @foreach ( $revenue_datas as $key => $value )
+       @foreach ( $thang as $key => $value )
 
         <tr>
             <th scope="row">{{$key+1}}</th>
-            <td>{{$value->date}}</td>
-            <td>{{$value->revenue}}</td>
-            @if ($key==0)
-            <td>{{$max_revenue->date}}</td>
-
-            @endif
-            @if ($key==0)
-            <td>{{$min_revenue->date}}</td>
-            @endif
+            <td>{{$value['thang']}}</td>
+            <td>{{$value['doanhthu']}}</td>
+            <td>{{$value['max']}}</td>
+            <td>{{$value['min']}}</td>
+     
 
         </tr>
        @endforeach
