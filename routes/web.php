@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\cach2;
 use App\Http\Controllers\RevenueDataController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('index',[RevenueDataController::class,'index'])->name('index');
+Route::get('cach2',[cach2::class,'cach2'])->name('cach2');
