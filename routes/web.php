@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\cach2;
 use App\Http\Controllers\RevenueDataController;
+use App\Http\Controllers\hieu;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,4 @@ Route::get('/', function () {
 });
 Route::get('index',[RevenueDataController::class,'index'])->name('index');
 Route::get('cach2',[cach2::class,'cach2'])->name('cach2');
+Route::get('hieu',[hieu::class,'hieu'])->name('hieu');
