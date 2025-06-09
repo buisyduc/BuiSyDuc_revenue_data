@@ -1,26 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class Hieu extends Controller
+class RevenueDataController extends Controller
 {
-    function hieu(Request $request){
+    function index(Request $request){
         $nam = $request -> input('nam', now()->year);
-      $datathang= DB::table('revenue_datas')
+        $datathang= DB::table('revenue_datas')
             ->selectRaw("
             DATE_FORMAT(date,'%m/%Y') as thang,
-            SUM(revenue) as doanhthu
+            SUM(revenue) as doanhthu,
+            MONTH(date) as month
             ")
             ->whereYear('date',$nam)
-            ->groupBy( 'thang',)
+            ->groupBy( 'thang','month')
+            ->orderBy('month')
             ->get();
 
 
             foreach ($datathang as $item){
-                $thang = $item->thang;
+                $thang = $item->month;
                 $max = DB::table('revenue_datas')
                  ->selectRaw("
                 DATE(date) as ngay,
@@ -43,17 +46,12 @@ class Hieu extends Controller
                 ->groupBy('ngay')
                 ->orderBy('doanhthu')
                 ->first();
-                // print_r($datathang);
-                // print_r($max);
-                // print_r($min);
-
                 $item->ngay_max = $max->ngay;
                 $item->doanhthu_max = $max->doanhthu;
                 $item->ngay_min = $min->ngay;
                 $item->doanhthu_min = $min->doanhthu;
             }
+            return response()->json(data: $datathang);
 
-        return view('hieu',compact('datathang'));
     }
 }
-
